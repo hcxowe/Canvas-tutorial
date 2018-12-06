@@ -83,12 +83,12 @@ window.onload = function () {
 
         var mouseX = evt.clientX - canvas.offsetLeft;
         var mouseY = evt.clientY - canvas.offsetTop;
-        
+
         var distanceX = mouseX - position2.x
         var distanceY = mouseY - position2.y
 
-        if (mouseX > position2.x && mouseX < position2.x+padding*2+textWidth) {
-            if (mouseY > position2.y && mouseX < position2.y + ary2.length * (textHeight + yInterval) + padding * 2 - yInterval) {
+        if (distanceX > 0 && distanceX < padding*2+textWidth) {
+            if (distanceY > 0 && distanceY < ary2.length * (textHeight + yInterval) + padding * 2 - yInterval) {
                 canvas.onmousemove = function(ev){
                     var e = ev || event;
                     var ax = e.clientX - canvas.offsetLeft;
