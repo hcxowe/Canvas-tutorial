@@ -69,12 +69,21 @@ init();
             ctx.save();
             ctx.rotate(-pi / 2 + i * pi / 30);  //旋转坐标轴。坐标轴x的正方形从 向上开始算起
             ctx.beginPath();
-            ctx.moveTo(110, 0);
+            ctx.moveTo(i % 5 ? 120 : 110, 0);
             ctx.lineTo(140, 0);
             ctx.lineWidth = i % 5 ? 2 : 4;
             ctx.strokeStyle = i % 5 ? "blue" : "red";
             ctx.stroke();
             ctx.closePath();
+            if (i % 5 == 0) {
+                ctx.save()
+                ctx.translate(90, 0)
+                ctx.rotate(pi / 2 - i * pi / 30); 
+                ctx.font = "24px PingFang SC"
+                ctx.fillText(~~(i/5), -7, 7)
+                ctx.restore()
+            }
+
             ctx.restore();
         }
         ctx.restore();
