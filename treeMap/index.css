@@ -1,0 +1,70 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.color-active {
+    outline: 1px solid rgb(219, 8, 96)
+}
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.tree-contaier {
+    position: absolute;
+    width: 300px;
+    /* height: 300px; */
+    /* overflow: hidden; */
+    border: 1px solid #eee;
+}
+
+.tree-title {
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+    text-align: center;
+    background: #eee;
+    user-select: none;
+}
+
+.tree-wrap {
+    /* position: absolute;
+    top: 30px; bottom: 0; right: 0; left: 0; */
+    overflow: visble;
+    padding: 5px 10px;
+}
+
+.dot-before {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: green;
+    border-radius: 50%;
+    left: 5px;
+    margin-top: 4px;
+}
+
+.dot-after {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: green;
+    border-radius: 50%;
+    right: 5px;
+    margin-top: 4px;
+}
+
+.dot-before:hover,
+.dot-after:hover {
+    background: rgb(18, 238, 29);
+}
