@@ -1,4 +1,4 @@
-$(function(){
+window.onload = function() {
     var treeObjs = {} // 保存创建的树对象 {id - treeObj}
     var activeNode = null // 当前选中的节点
     var $container = $('#container') // 整个图的容器 jquery 对象
@@ -23,12 +23,12 @@ $(function(){
             beforeCollapse: zTreeOnCollapse,
             beforeExpand: zTreeOnExpand,
             onCollapse: onCollapse,
-            onExpand: onExpand,
+            onExpand: onExpand
         }
     }
 
     var canvas = document.getElementById('canvas')
-        context = canvas.getContext('2d')
+    var context = canvas.getContext('2d')
 
     // 手动设置画布的高宽, 需要适应 $container
     var wrapHeight = $container.prop('scrollHeight')
@@ -104,20 +104,20 @@ $(function(){
     }
 
     function initTree() {
-        getData() // 从后台获取数据
+        getData(function() {
+            treeData.forEach(function(item) {
+                createTree(item)
+            })
 
-        treeData.forEach(function(item) {
-            createTree(item)
+            // 在原有关系中加入 fromNode & toNode
+            relations_old.forEach(function(item) {
+                item.fromNode = treeObjs[item.from[0]].getNodeByParam('id', item.from[1])
+                item.toNode = treeObjs[item.to[0]].getNodeByParam('id', item.to[1])
+                relations.push(item)
+            })
+
+            updateCanvas()
         })
-
-        // 在原有关系中加入 fromNode & toNode
-        relations_old.forEach(function(item) {
-            item.fromNode = treeObjs[item.from[0]].getNodeByParam('id', item.from[1])
-            item.toNode = treeObjs[item.to[0]].getNodeByParam('id', item.to[1])
-            relations.push(item)
-        })
-
-        updateCanvas()
     }
 
     // 创建树
@@ -139,7 +139,41 @@ $(function(){
         treeObjs[opts.id] = $.fn.zTree.init($('#tree_' + opts.id), setting, opts.data)
     }
 
-    function getData() {
+    function getData(cb) {
+        var success = false
+
+        $.ajax({
+            url: '/api/getTreeData', 
+            type: 'GET',
+            cache: false,
+            success: function(ret) {
+                treeData = ret
+
+                if (success) {
+                    cb()
+                } else {
+                    success = true
+                }
+            }
+        })
+
+        $.ajax({
+            url: '/api/getRelations', 
+            type: 'GET',
+            cache: false,
+            success: function(ret) {
+                relations_old = ret
+    
+                if (success) {
+                    cb()
+                } else {
+                    success = true
+                }
+            }
+        })
+
+        return
+
         treeData = [
             {
                 title: '智能文档编辑需求',
@@ -620,11 +654,11 @@ $(function(){
 
         var relation = {}
 
-        relation.from = $firstNode.data('tid').split('_').slice(1)
-        relation.to = $(this).data('tid').split('_').slice(1)
+        relation.from = [+($firstNode.data('tid').split('_')[1])]
+        relation.to = [+($(this).data('tid').split('_')[1])]
 
         // 不能从后面的树连到前面的树, 不能逆关系
-        if (relation.from >= relation.to) {
+        if (relation.from[0] >= relation.to[0]) {
             lineing = false
             $firstNode = null
 
@@ -634,6 +668,8 @@ $(function(){
 
         relation.fromNode = treeObjs[relation.from[0]].getNodeByTId($firstNode.data('tid'))
         relation.toNode = treeObjs[relation.to[0]].getNodeByTId($(this).data('tid'))
+        relation.from[1] = relation.fromNode.id
+        relation.to[1] = relation.toNode.id
         relation.color = curColor
         relations.push(relation)
 
@@ -658,8 +694,8 @@ $(function(){
         evt.stopPropagation()
 
         clickPos = {
-            x: evt.offsetX,
-            y: evt.offsetY
+            x: evt.pageX,
+            y: evt.pageY
         }
 
         selRelElIndex = -1
@@ -688,6 +724,9 @@ $(function(){
         }
 
         console.log(posObj)
+        $.post('/api/savePosition', posObj, function() {
+
+        })
 
         // 获取关系数据
         var retRelations = relations.map(function(el) {
@@ -699,6 +738,19 @@ $(function(){
         })
 
         console.log(retRelations)
+        /* $.post('/api/saveRelations', retRelations, function() {
+            
+        }) */
+
+        $.ajax({
+            type: "POST",
+            url: "/api/saveRelations",
+            data: {data: retRelations},
+            dataType: "json",
+            success: function(data){
+
+            }
+        })
     })
 
     // 节点为创建或者隐藏,需要获取第一个可见的父节点
@@ -807,10 +859,35 @@ $(function(){
         for (var i=-1; i<2; i++) {
             for(var j=-1; j<2; j++) {
                 if (context.isPointInStroke(x+i, y+j)) {
+                //if (context.isPointInPath(x+i, y+j)) {
                     return true
                 }
             }
         }
+
+        return false
+    }
+
+    function pointInLine(p1, p2, pt) {
+        //for (var i=-1; i<2; i++) {
+        //    for(var j=-1; j<2; j++) {
+                if (p2.y - p1.y > 0) {
+                    if (pt.y > p2.y && pt.y < p1.y) return false
+                }
+                else if (p2.y - p1.y < 0) {
+                    if (pt.y > p1.y && pt.y < p2.y) return false
+                }
+
+                if (pt.x < p1.x && pt.x > p2.x) return false
+
+                var angle1 = (p2.y - p1.y) / (p2.x - p1.x)
+                var angle2 = (pt.y - p1.y) / (pt.x - p1.x)
+
+                if (Math.abs(angle1 - angle2) < 0.05) {
+                    return true
+                }
+        //   }
+        //}
 
         return false
     }
@@ -893,7 +970,8 @@ $(function(){
             drawArrow(context, p1.x, p1.y, p2.x, p2.y, 30, 10, 1, color)
 
             if (clickPos) {
-                if (selLine(clickPos.x-wrapscrollLeft, clickPos.y-wrapscrollTop)) {
+                //if (selLine(clickPos.x-wrapscrollLeft, clickPos.y-wrapscrollTop)) {
+                if (pointInLine(p1, p2, {x: clickPos.x - wrapOffset.left + wrapscrollLeft, y: clickPos.y - wrapOffset.top + wrapscrollTop})) {
                     selRelElIndex = index
                     drawArrow(context, p1.x, p1.y, p2.x, p2.y, 30, 10, 2, 'green')
                     clickPos = null
@@ -907,7 +985,7 @@ $(function(){
         distanceY = 0, // 拖拽点相对树的偏移Y
         isDrag = false // 是否正在拖拽
 
-    $('#container .tree-title').on('mousedown', function(evt) {
+    $('#container').on('mousedown', '.tree-title', function(evt) {
         $dragEl = $(this).parent()
         var pOffset = $dragEl.offset()
 
@@ -964,4 +1042,4 @@ $(function(){
     $(document).on('mouseup', function() {
         isDrag = false
     })
-})
+}
