@@ -1042,4 +1042,65 @@ window.onload = function() {
     $(document).on('mouseup', function() {
         isDrag = false
     })
+
+    $.ajax({
+        url: '/api/getXMList',
+        type: 'GET',
+        success: function(ret) {
+            $('#select_XM').html(ret.map(function(el) {
+                return '<option>' + el + '</option>'
+            }))
+
+            $('#select_XM').trigger('change')
+        }
+    })
+
+    $.ajax({
+        url: '/api/getSTList',
+        type: 'GET',
+        success: function(ret) {
+            $('#select_st').html(ret.map(function(el) {
+                return '<option>' + el + '</option>'
+            }))
+
+            $('#select_st').trigger('change')
+        }
+    })
+
+    $('#select_XM').on('change', function() {
+        $.ajax({
+            url: '/api/getXMTree',
+            type: 'GET',
+            success: function(ret) {
+                $.fn.zTree.init($('#tree_main'), {}, ret)
+            }
+        })
+    })
+
+    $('#colorSel').minicolors({
+        theme: 'bootstrap'
+    });
+
+    $.ajax({
+        url: '/api/getColorList',
+        type: 'GET',
+        success: function(ret) {
+            $('#color_list').html(ret.map(function(el) {
+                return '<li style="background: ' + el.color + '" data-name="' + el.name +'" data-color="' + el.color + '">' + el.name + '</li>'
+            }))
+        }
+    })
+
+    $('#color_list').on('click', 'li', function() {
+        $(this).addClass('color-active').siblings().removeClass('color-active')
+
+        curColor = $(this).data('color')
+    })
+
+    $('#btnColor').click(function() {
+        var color = $('#colorSel').val()
+        var text = $('#color_text').val()
+
+        $('#color_list').append('<li style="background: ' + color + '" data-name="' + text +'" data-color="' + color + '">' + text + '</li>')
+    })
 }

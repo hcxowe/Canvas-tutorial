@@ -9,8 +9,84 @@ body {
     overflow: hidden;
 }
 
+.main-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.west {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 300px;
+    border: 1px solid #ccc;
+}
+
+.west-north {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 30px 20px;
+    height: 110px;
+    border-bottom: 1px solid #ccc;
+}
+
+.west-center {
+    position: absolute;
+    top: 100px; left: 0; right: 0; bottom: 0;
+}
+
+.north {
+    position: absolute;
+    top: 0; left: 300px; right: 0;
+    height: 111px;
+    border: 1px solid #ccc;
+    border-left: none;
+}
+
+.north-east-color {
+    position: absolute;
+    top: 0; bottom: 0; right: 200px;
+    width: 200px;
+    border-left: 1px solid #ccc;
+}
+
+.north-east-save {
+    position: absolute;
+    top: 0; bottom: 0; right: 0;
+    width: 200px;
+    border-left: 1px solid #ccc;
+}
+
+.north-center {
+    position: absolute;
+    top: 0; bottom: 0; right: 400px; left: 0;
+}
+
+.center {
+    position: absolute;
+    top: 100px; bottom: 0; right: 0; left: 300px;
+}
+
 .color-active {
     outline: 1px solid rgb(219, 8, 96)
+}
+
+#color_list {
+    list-style: none;
+    padding: 8px;
+}
+
+#color_list li {
+    float: left;
+    padding: 8px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    user-select: none;
+}
+#color_list li:hover,
+.color-active {
+    outline: 2px dashed red;
 }
 
 .wrapper {

@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
+    <link rel="stylesheet" href="./bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./jquery-minicolors/jquery.minicolors.css">
     <link rel="stylesheet" href="./css/zTreeStyle/zTreeStyle.css">
     <link rel="stylesheet" href="./index.css">
 
@@ -17,19 +19,65 @@
         
     <!-- <script src="./es5-sham.js"></script> -->
     <script src="./jquery-1.11.3.min.js"></script>
+    <script src="./bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="./jquery-minicolors//jquery.minicolors.min.js"></script>
     <script src="./jquery.ztree.all.js"></script>
 </head>
 <body>
-    <div id="container" class="wrapper">
-        <canvas id="canvas"></canvas>
-        <div id="colorBox" style="position:absolute; right: 10px;top:10px;">
-            <span class="color-active" style="display:inline-block;width:16px;height:16px;background: #0000FF;"></span>
-            <span style="display:inline-block;width:16px;height:16px;background: #FF00FF;"></span>
-            <span style="display:inline-block;width:16px;height:16px;background: #A52A2A;"></span>
-            <span style="display:inline-block;width:16px;height:16px;background: #7FFFD4;"></span>
-            <span style="display:inline-block;width:16px;height:16px;background: #000000;"></span>
-            <button id="clearBtn">删除</button>
-            <button id="saveBtn">保存</button>
+    <div class="main-wrapper">
+        <div class="west">
+            <div class="west-north">
+                <select id="select_XM" class="form-control"></select>
+            </div>
+
+            <div class="west-center">
+                <ul id="tree_main" class="ztree"></ul>
+            </div>
+        </div>
+
+        <div class="north">
+            <div class="north-east-color" style="padding: 5px;">
+                <div style="margin-bottom: 2px;">
+                    <label style="position: absolute;margin-top:4px;">颜色:</label>
+                    <div style="margin-left: 40px;">
+                        <input id="colorSel" name="color" type="hidden" id="hidden-input form-control" value="#db913d">
+                    </div>
+                </div>
+                <div style="margin-bottom: 2px;">
+                    <label style="position: absolute;margin-top:5px;">文字:</label>
+                    <div style="margin-left: 40px;">
+                        <input id="color_text" type="text" class="form-control" placeholder="请输入显示文字">
+                    </div>
+                </div>
+                <div style="padding-left: 40px;">
+                    <button id="btnColor" class="btn btn-primary form-control">添加</button>
+                </div>
+            </div>
+
+            <div class="north-east-save">
+                <select id="select_st" class="form-control"></select>
+                <button class="btn btn-primary form-control">保存关系</button>
+                <button class="btn btn-primary form-control">新建关系</button>
+            </div>
+
+            <div class="north-center" style="overflow: auto;">
+                <ul id="color_list"></ul>
+            </div>
+        </div>
+
+        <div class="center">
+            <div id="container" class="wrapper">
+                <canvas id="canvas"></canvas>
+                <!-- <div id="colorBox" style="position:absolute; right: 10px;top:10px;">
+                    <span class="color-active" style="display:inline-block;width:16px;height:16px;background: #0000FF;"></span>
+                    <span style="display:inline-block;width:16px;height:16px;background: #FF00FF;"></span>
+                    <span style="display:inline-block;width:16px;height:16px;background: #A52A2A;"></span>
+                    <span style="display:inline-block;width:16px;height:16px;background: #7FFFD4;"></span>
+                    <span style="display:inline-block;width:16px;height:16px;background: #000000;"></span>
+                    <button id="clearBtn">删除</button>
+                    <button id="saveBtn">保存</button>
+                </div> -->
+            </div>
         </div>
     </div>
 

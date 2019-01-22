@@ -467,6 +467,35 @@ var relations = [
     }
 ]
 
+var xmlist = [1,2,3,4,5]
+var stlist = ['关系快照1', '关系快照2', '关系快照3', '关系快照4']
+var colorlist = [
+                    {name: '关系', color: '#ff0000'},
+                    {name: '关系', color: '#00ff00'},
+                    {name: '关系', color: '#0000ff'},
+                    {name: '关系', color: '#ff00ff'},
+                ]
+
+router.get('/getXMList', async (ctx) => {
+    ctx.response.type = 'json'
+    ctx.response.body = xmlist
+})
+
+router.get('/getSTList', async (ctx) => {
+    ctx.response.type = 'json'
+    ctx.response.body = stlist
+})
+
+router.get('/getColorList', async (ctx) => {
+    ctx.response.type = 'json'
+    ctx.response.body = colorlist
+})
+
+router.get('/getXMTree', async (ctx) => {
+    ctx.response.type = 'json'
+    ctx.response.body = treeData[0].data
+})
+
 router.get('/getTreeData', async (ctx) => {
     ctx.response.type = 'json'
     ctx.response.body = treeData
