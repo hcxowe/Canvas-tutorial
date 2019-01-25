@@ -4,7 +4,7 @@ window.onload = function() {
     var $container = $('#container') // 整个图的容器 jquery 对象
     var treeData = null // 保存从获取的树数据
     var relations_old = null // 保存从后台获取的关系数据
-    var relations = []  // 前端组装的关系数据
+    var relations = [] // 前端组装的关系数据
     var clickPos = null // 画布点击的鼠标位置
     var selRelElIndex = null // 选中的关系线在 relations 中的索引
     var $firstNode = null // 连线时, 点击的第一个圆点 jquery 对象
@@ -32,7 +32,7 @@ window.onload = function() {
 
     // 手动设置画布的高宽, 需要适应 $container
     var wrapHeight = $container.prop('scrollHeight')
-    $('#canvas').attr('height', wrapHeight-5)
+    $('#canvas').attr('height', wrapHeight - 5)
     var wrapWidth = $container.prop('scrollWidth')
     $('#canvas').attr('width', wrapWidth)
 
@@ -51,8 +51,7 @@ window.onload = function() {
 
         if (treeNode.isParent) {
             $a.after('<span data-tid="' + treeNode.tId + '" class="dot-after"></span>')
-        }
-        else {
+        } else {
             $a.after('<span data-tid="' + treeNode.tId + '" class="dot-after"></span>')
         }
     }
@@ -60,7 +59,7 @@ window.onload = function() {
     // 选中节点
     function zTreeOnClick(event, treeId, treeNode) {
         // 清除所有树节点选中状态
-        for(id in treeObjs) {
+        for (id in treeObjs) {
             if (treeObjs.hasOwnProperty(id)) {
                 treeObjs[id].cancelSelectedNode()
             }
@@ -100,8 +99,7 @@ window.onload = function() {
         updateCanvas()
     }
 
-    function zTreeOnExpand(treeId, treeNode) {
-    }
+    function zTreeOnExpand(treeId, treeNode) {}
 
     function initTree() {
         getData(function() {
@@ -124,10 +122,10 @@ window.onload = function() {
     function createTree(opts) {
         var html = []
         html.push('<div class="tree-contaier">')
-            html.push('<p class="tree-title">' + opts.title + '</p>')
-            html.push('<div class="tree-wrap">')
-                html.push('<ul id="tree_' + opts.id + '" class="ztree"></ul>')
-            html.push('</div>')
+        html.push('<p class="tree-title">' + opts.title + '</p>')
+        html.push('<div class="tree-wrap">')
+        html.push('<ul id="tree_' + opts.id + '" class="ztree"></ul>')
+        html.push('</div>')
         html.push('</div>')
 
         var $el = $(html.join(''))
@@ -143,7 +141,7 @@ window.onload = function() {
         var success = false
 
         $.ajax({
-            url: '/api/getTreeData', 
+            url: '/api/getTreeData',
             type: 'GET',
             cache: false,
             success: function(ret) {
@@ -158,12 +156,12 @@ window.onload = function() {
         })
 
         $.ajax({
-            url: '/api/getRelations', 
+            url: '/api/getRelations',
             type: 'GET',
             cache: false,
             success: function(ret) {
                 relations_old = ret
-    
+
                 if (success) {
                     cb()
                 } else {
@@ -173,471 +171,6 @@ window.onload = function() {
         })
 
         return
-
-        treeData = [
-            {
-                title: '智能文档编辑需求',
-                x: 50,
-                y: 100,
-                id: 1,
-                level: 1,
-                data: [
-                    {
-                        name:"父节点1",
-                        id: 1,
-                        open:true,
-                        children: [
-                            {
-                                name:"父节点11",
-                                id: 11,
-                                open:true,
-                                children: [
-                                    { 
-                                        name:"叶子节点111",
-                                        id: 111
-                                    },
-                                    { 
-                                        name:"叶子节点112",
-                                        id: 112
-        
-                                    },
-                                    { 
-                                        name:"叶子节点113",
-                                        id: 113
-                                    },
-                                    { 
-                                        name:"叶子节点114",
-                                        id: 114
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点12",
-                                id: 12,
-                                children: [
-                                    { 
-                                        name:"叶子节点111",
-                                        id: 121
-                                    },
-                                    { 
-                                        name:"叶子节点112",
-                                        id: 122
-        
-                                    },
-                                    { 
-                                        name:"叶子节点113",
-                                        id: 123
-                                    },
-                                    { 
-                                        name:"叶子节点114",
-                                        id: 124
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点13 - 没有子节点",
-                                id: 13,
-                                isParent:true
-                            }
-                        ]
-                    },
-                    {
-                        name:"父节点2",
-                        id: 2,
-                        open: true,
-                        children: [
-                            {
-                                name:"父节点21",
-                                id: 21,
-                                open:true,
-                                children: [
-                                    { 
-                                        name:"叶子节点211",
-                                        id: 211
-                                    },
-                                    { 
-                                        name:"叶子节点212",
-                                        id: 212
-        
-                                    },
-                                    { 
-                                        name:"叶子节点213",
-                                        id: 213
-                                    },
-                                    { 
-                                        name:"叶子节点214",
-                                        id: 214
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点22",
-                                id: 22,
-                                children: [
-                                    { 
-                                        name:"叶子节点221",
-                                        id: 221
-                                    },
-                                    { 
-                                        name:"叶子节点222",
-                                        id: 222
-        
-                                    },
-                                    { 
-                                        name:"叶子节点223",
-                                        id: 223
-                                    },
-                                    { 
-                                        name:"叶子节点224",
-                                        id: 224
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点23",
-                                id: 23,
-                                children: [
-                                    { 
-                                        name:"叶子节点231",
-                                        id: 231
-                                    },
-                                    { 
-                                        name:"叶子节点232",
-                                        id: 232
-        
-                                    },
-                                    { 
-                                        name:"叶子节点233",
-                                        id: 233
-                                    },
-                                    { 
-                                        name:"叶子节点234",
-                                        id: 234
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name:"父节点3",
-                        id: 3,
-                        isParent:true
-                    }
-                ]
-            },
-            {
-                title: '智能文档编辑需求',
-                x: 400,
-                y: 100,
-                id: 2,
-                level: 2,
-                data: [
-                    {
-                        name:"父节点1",
-                        id: 1,
-                        open:true,
-                        children: [
-                            {
-                                name:"父节点11",
-                                id: 11,
-                                open:true,
-                                children: [
-                                    { 
-                                        name:"叶子节点111",
-                                        id: 111
-                                    },
-                                    { 
-                                        name:"叶子节点112",
-                                        id: 112
-        
-                                    },
-                                    { 
-                                        name:"叶子节点113",
-                                        id: 113
-                                    },
-                                    { 
-                                        name:"叶子节点114",
-                                        id: 114
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点12",
-                                id: 12,
-                                children: [
-                                    { 
-                                        name:"叶子节点111",
-                                        id: 121
-                                    },
-                                    { 
-                                        name:"叶子节点112",
-                                        id: 122
-        
-                                    },
-                                    { 
-                                        name:"叶子节点113",
-                                        id: 123
-                                    },
-                                    { 
-                                        name:"叶子节点114",
-                                        id: 124
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点13 - 没有子节点",
-                                id: 13,
-                                isParent:true
-                            }
-                        ]
-                    },
-                    {
-                        name:"父节点2",
-                        id: 2,
-                        open: true,
-                        children: [
-                            {
-                                name:"父节点21",
-                                id: 21,
-                                open:true,
-                                children: [
-                                    { 
-                                        name:"叶子节点211",
-                                        id: 211
-                                    },
-                                    { 
-                                        name:"叶子节点212",
-                                        id: 212
-        
-                                    },
-                                    { 
-                                        name:"叶子节点213",
-                                        id: 213
-                                    },
-                                    { 
-                                        name:"叶子节点214",
-                                        id: 214
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点22",
-                                id: 22,
-                                children: [
-                                    { 
-                                        name:"叶子节点221",
-                                        id: 221
-                                    },
-                                    { 
-                                        name:"叶子节点222",
-                                        id: 222
-        
-                                    },
-                                    { 
-                                        name:"叶子节点223",
-                                        id: 223
-                                    },
-                                    { 
-                                        name:"叶子节点224",
-                                        id: 224
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点23",
-                                id: 23,
-                                children: [
-                                    { 
-                                        name:"叶子节点231",
-                                        id: 231
-                                    },
-                                    { 
-                                        name:"叶子节点232",
-                                        id: 232
-        
-                                    },
-                                    { 
-                                        name:"叶子节点233",
-                                        id: 233
-                                    },
-                                    { 
-                                        name:"叶子节点234",
-                                        id: 234
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name:"父节点3",
-                        id: 3,
-                        isParent:true
-                    }
-                ]
-            },
-            {
-                title: '智能文档编辑需求',
-                x: 750,
-                y: 100,
-                id: 3,
-                level: 3,
-                data: [
-                    {
-                        name:"父节点1",
-                        id: 1,
-                        open:true,
-                        children: [
-                            {
-                                name:"父节点11",
-                                id: 11,
-                                open:true,
-                                children: [
-                                    { 
-                                        name:"叶子节点111",
-                                        id: 111
-                                    },
-                                    { 
-                                        name:"叶子节点112",
-                                        id: 112
-        
-                                    },
-                                    { 
-                                        name:"叶子节点113",
-                                        id: 113
-                                    },
-                                    { 
-                                        name:"叶子节点114",
-                                        id: 114
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点12",
-                                id: 12,
-                                children: [
-                                    { 
-                                        name:"叶子节点111",
-                                        id: 121
-                                    },
-                                    { 
-                                        name:"叶子节点112",
-                                        id: 122
-        
-                                    },
-                                    { 
-                                        name:"叶子节点113",
-                                        id: 123
-                                    },
-                                    { 
-                                        name:"叶子节点114",
-                                        id: 124
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点13 - 没有子节点",
-                                id: 13,
-                                isParent:true
-                            }
-                        ]
-                    },
-                    {
-                        name:"父节点2",
-                        id: 2,
-                        open: true,
-                        children: [
-                            {
-                                name:"父节点21",
-                                id: 21,
-                                open:true,
-                                children: [
-                                    { 
-                                        name:"叶子节点211",
-                                        id: 211
-                                    },
-                                    { 
-                                        name:"叶子节点212",
-                                        id: 212
-        
-                                    },
-                                    { 
-                                        name:"叶子节点213",
-                                        id: 213
-                                    },
-                                    { 
-                                        name:"叶子节点214",
-                                        id: 214
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点22",
-                                id: 22,
-                                children: [
-                                    { 
-                                        name:"叶子节点221",
-                                        id: 221
-                                    },
-                                    { 
-                                        name:"叶子节点222",
-                                        id: 222
-        
-                                    },
-                                    { 
-                                        name:"叶子节点223",
-                                        id: 223
-                                    },
-                                    { 
-                                        name:"叶子节点224",
-                                        id: 224
-                                    }
-                                ]
-                            },
-                            {
-                                name:"父节点23",
-                                id: 23,
-                                children: [
-                                    { 
-                                        name:"叶子节点231",
-                                        id: 231
-                                    },
-                                    { 
-                                        name:"叶子节点232",
-                                        id: 232
-        
-                                    },
-                                    { 
-                                        name:"叶子节点233",
-                                        id: 233
-                                    },
-                                    { 
-                                        name:"叶子节点234",
-                                        id: 234
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        name:"父节点3",
-                        id: 3,
-                        isParent:true
-                    }
-                ]
-            }
-        ]
-        relations_old = [
-            {
-                from: [1, 111],
-                to: [2, 111],
-                color: 'blue'
-            },
-            {
-                from: [2, 111],
-                to: [3, 111],
-                color: 'blue'
-            }
-        ]
     }
 
     initTree()
@@ -656,6 +189,9 @@ window.onload = function() {
 
         relation.from = [+($firstNode.data('tid').split('_')[1])]
         relation.to = [+($(this).data('tid').split('_')[1])]
+
+        var flevel = getLevelById(relation.from[0])
+        var tlevel = getLevelById(relation.to[0])
 
         // 不能从后面的树连到前面的树, 不能逆关系
         if (relation.from[0] >= relation.to[0]) {
@@ -714,7 +250,7 @@ window.onload = function() {
     $('#saveBtn').on('click', function() {
         // 获取树的位置
         var posObj = {}
-        for(id in treeObjs) {
+        for (id in treeObjs) {
             if (treeObjs.hasOwnProperty(id)) {
                 posObj[id] = {
                     x: parseInt($('#tree_' + id).parents('.tree-contaier').css('left')),
@@ -738,16 +274,16 @@ window.onload = function() {
         })
 
         console.log(retRelations)
-        /* $.post('/api/saveRelations', retRelations, function() {
-            
-        }) */
+            /* $.post('/api/saveRelations', retRelations, function() {
+                
+            }) */
 
         $.ajax({
             type: "POST",
             url: "/api/saveRelations",
-            data: {data: retRelations},
+            data: { data: retRelations },
             dataType: "json",
-            success: function(data){
+            success: function(data) {
 
             }
         })
@@ -756,10 +292,10 @@ window.onload = function() {
     // 节点为创建或者隐藏,需要获取第一个可见的父节点
     function getFirstVisbleNode(node) {
         var tempNode = node
-        var $el = $('#'+tempNode.tId)
-        while($el == 0 || $el.is(':hidden')) {
+        var $el = $('#' + tempNode.tId)
+        while ($el == 0 || $el.is(':hidden')) {
             tempNode = tempNode.getParentNode()
-            $el = $('#'+tempNode.tId)
+            $el = $('#' + tempNode.tId)
         }
 
         return tempNode
@@ -781,7 +317,7 @@ window.onload = function() {
         // 获取树级别数组, 按升序排序
         var keys = treeData.map(function(el) {
             return el.level
-        }).sort(function(a, b) { return a - b})
+        }).sort(function(a, b) { return a - b })
 
         // 关系数据按级别存储, 根据 fromNode 节点的树级别
         keys.forEach(function(item) {
@@ -797,9 +333,9 @@ window.onload = function() {
 
         // 往上找有关系的节点
         var findToNode = [node]
-        for (var i=selIndex-1; i>=0; i--) {
+        for (var i = selIndex - 1; i >= 0; i--) {
             var temNodes = relObjs[keys[i]].filter(function(el) {
-                for (var j=0; j<findToNode.length; j++) {
+                for (var j = 0; j < findToNode.length; j++) {
                     if (findToNode[j] == el.toNode) {
                         el.highlight = true
                         return true
@@ -818,9 +354,9 @@ window.onload = function() {
 
         // 往下找有关系的节点
         var findFromNode = [node]
-        for (var i=selIndex; i<keys.length; i++) {
+        for (var i = selIndex; i < keys.length; i++) {
             var temNodes = relObjs[keys[i]].filter(function(el) {
-                for (var j=0; j<findFromNode.length; j++) {
+                for (var j = 0; j < findFromNode.length; j++) {
                     if (findFromNode[j] == el.fromNode) {
                         el.highlight = true
                         return true
@@ -838,7 +374,7 @@ window.onload = function() {
     }
 
     function updateSelNode() {
-        for(id in treeObjs) {
+        for (id in treeObjs) {
             if (treeObjs.hasOwnProperty(id)) {
                 treeObjs[id].cancelSelectedNode()
             }
@@ -856,10 +392,9 @@ window.onload = function() {
 
     // 是否选中线, 扩大选中的范围, 否则很难选中
     function selLine(x, y) {
-        for (var i=-1; i<2; i++) {
-            for(var j=-1; j<2; j++) {
-                if (context.isPointInStroke(x+i, y+j)) {
-                //if (context.isPointInPath(x+i, y+j)) {
+        for (var i = -1; i < 2; i++) {
+            for (var j = -1; j < 2; j++) {
+                if (context.isPointInStroke(x + i, y + j)) {
                     return true
                 }
             }
@@ -869,35 +404,30 @@ window.onload = function() {
     }
 
     function pointInLine(p1, p2, pt) {
-        //for (var i=-1; i<2; i++) {
-        //    for(var j=-1; j<2; j++) {
-                if (p2.y - p1.y > 0) {
-                    if (pt.y > p2.y && pt.y < p1.y) return false
-                }
-                else if (p2.y - p1.y < 0) {
-                    if (pt.y > p1.y && pt.y < p2.y) return false
-                }
+        if (p2.y - p1.y > 0) {
+            if (pt.y > p2.y && pt.y < p1.y) return false
+        } else if (p2.y - p1.y < 0) {
+            if (pt.y > p1.y && pt.y < p2.y) return false
+        }
 
-                if (pt.x < p1.x && pt.x > p2.x) return false
+        if (pt.x < p1.x && pt.x > p2.x) return false
 
-                var angle1 = (p2.y - p1.y) / (p2.x - p1.x)
-                var angle2 = (pt.y - p1.y) / (pt.x - p1.x)
+        var angle1 = (p2.y - p1.y) / (p2.x - p1.x)
+        var angle2 = (pt.y - p1.y) / (pt.x - p1.x)
 
-                if (Math.abs(angle1 - angle2) < 0.05) {
-                    return true
-                }
-        //   }
-        //}
+        if (Math.abs(angle1 - angle2) < 0.05) {
+            return true
+        }
 
         return false
     }
 
     // 画箭头
     function drawArrow(ctx, fromX, fromY, toX, toY, theta, headlen, width, color) {
-        theta = typeof (theta) != 'undefined' ? theta : 30;
-        headlen = typeof (theta) != 'undefined' ? headlen : 10;
-        width = typeof (width) != 'undefined' ? width : 1;
-        color = typeof (color) != 'color' ? color : '#000';
+        theta = typeof(theta) != 'undefined' ? theta : 30;
+        headlen = typeof(theta) != 'undefined' ? headlen : 10;
+        width = typeof(width) != 'undefined' ? width : 1;
+        color = typeof(color) != 'color' ? color : '#000';
 
         var angle = Math.atan2(toY - fromY, toX - fromX) * 180 / Math.PI,
             angle1 = (angle + theta) * Math.PI / 180,
@@ -954,7 +484,7 @@ window.onload = function() {
             var color = 'blue'
             if (el.highlight) {
                 color = 'red'
-            }else {
+            } else {
                 color = el.color
             }
 
@@ -971,7 +501,7 @@ window.onload = function() {
 
             if (clickPos) {
                 //if (selLine(clickPos.x-wrapscrollLeft, clickPos.y-wrapscrollTop)) {
-                if (pointInLine(p1, p2, {x: clickPos.x - wrapOffset.left + wrapscrollLeft, y: clickPos.y - wrapOffset.top + wrapscrollTop})) {
+                if (pointInLine(p1, p2, { x: clickPos.x - wrapOffset.left + wrapscrollLeft, y: clickPos.y - wrapOffset.top + wrapscrollTop })) {
                     selRelElIndex = index
                     drawArrow(context, p1.x, p1.y, p2.x, p2.y, 30, 10, 2, 'green')
                     clickPos = null
@@ -995,7 +525,7 @@ window.onload = function() {
         isDrag = true
     })
 
-    $(document).on('mousemove', function(evt){
+    $(document).on('mousemove', function(evt) {
         if (lineing) {
             updateCanvas()
 
@@ -1021,8 +551,10 @@ window.onload = function() {
             return
         }
 
+        var wrapOffset = $container.offset()
+
         if ($container[0].scrollHeight != wrapHeight) {
-            $('#canvas').attr('height', $container[0].scrollHeight-5)
+            $('#canvas').attr('height', $container[0].scrollHeight - 5)
             wrapHeight = $container[0].scrollHeight
         }
 
@@ -1034,13 +566,17 @@ window.onload = function() {
         var ax = evt.clientX - distanceX,
             ay = evt.clientY - distanceY
 
-        $dragEl.offset({top: ay>=0 ? ay : 0, left: ax>=0 ? ax : 0})
+        $dragEl.offset({
+            top: ay >= wrapOffset.top ? ay : wrapOffset.top,
+            left: ax >= wrapOffset.left ? ax : wrapOffset.left
+        })
 
         updateCanvas()
     })
 
     $(document).on('mouseup', function() {
         isDrag = false
+        console.log('mouseup')
     })
 
     $.ajax({
@@ -1067,12 +603,63 @@ window.onload = function() {
         }
     })
 
+    var dragNode = null
     $('#select_XM').on('change', function() {
         $.ajax({
             url: '/api/getXMTree',
             type: 'GET',
             success: function(ret) {
-                $.fn.zTree.init($('#tree_main'), {}, ret)
+                $.fn.zTree.init($('#tree_main'), {
+                    view: {
+                        selectedMulti: false
+                    },
+                    edit: {
+                        drag: {
+                            autoExpandTrigger: false,
+                            prev: function() { return false },
+                            inner: function() { return false },
+                            next: function() { return false }
+                        },
+                        enable: true,
+                        showRemoveBtn: false,
+                        showRenameBtn: false
+                    },
+                    callback: {
+                        beforeDrag: function() { return true },
+                        beforeDrop: function() { return false },
+                        onDrag: function(event, treeId, treeNodes) {
+                            console.log('drag')
+                            dragNode = treeNodes[0]
+                        },
+                        onDrop: function() {
+                            console.log('drop')
+                            dragNode = null
+                        }
+                    }
+                }, ret)
+            }
+        })
+    })
+
+    $(canvas).on('mouseup', function(evt) {
+        if (!dragNode) {
+            return
+        }
+
+        var wrapOffset = $container.offset()
+        var position = {
+            x: evt.pageX - wrapOffset.left,
+            y: evt.pageY - wrapOffset.top
+        }
+
+        $.ajax({
+            url: '/api/getNodeTreeData',
+            type: 'GET',
+            success: function(ret) {
+                ret.x = position.x
+                ret.y = position.y
+
+                createTree(ret)
             }
         })
     })
@@ -1086,7 +673,7 @@ window.onload = function() {
         type: 'GET',
         success: function(ret) {
             $('#color_list').html(ret.map(function(el) {
-                return '<li style="background: ' + el.color + '" data-name="' + el.name +'" data-color="' + el.color + '">' + el.name + '</li>'
+                return '<li style="background: ' + el.color + '" data-name="' + el.name + '" data-color="' + el.color + '">' + el.name + '</li>'
             }))
         }
     })
@@ -1101,6 +688,6 @@ window.onload = function() {
         var color = $('#colorSel').val()
         var text = $('#color_text').val()
 
-        $('#color_list').append('<li style="background: ' + color + '" data-name="' + text +'" data-color="' + color + '">' + text + '</li>')
+        $('#color_list').append('<li style="background: ' + color + '" data-name="' + text + '" data-color="' + color + '">' + text + '</li>')
     })
 }
